@@ -1,9 +1,11 @@
 <!-- Announcement Bar -->
 <div class="sv-announcement">
   <div class="sv-container d-flex justify-content-between align-items-center">
-    <span><i class="fa-solid fa-truck-fast"></i> <strong>Free Shipping</strong> across Egypt on orders over EGP 1,500</span>
-    <span class="d-none d-md-inline"><i class="fa-solid fa-shield-halved"></i> 100% Genuine Products | 14-Day Free Returns</span>
-    <span class="d-none d-lg-inline"><i class="fa-solid fa-phone"></i> Support: +20 102 345 6789</span>
+    <span><i class="fa-solid fa-truck-fast"></i> <strong>Free Shipping</strong> across Egypt on orders over EGP
+      1,500</span>
+    <span class="d-none d-md-inline"><i class="fa-solid fa-shield-halved"></i> 100% Genuine Products | 14-Day Free
+      Returns</span>
+    <span class="d-none d-lg-inline"><i class="fa-solid fa-phone"></i> Support: 01097380883</span>
   </div>
 </div>
 
@@ -18,14 +20,8 @@
 
     <!-- Search Form -->
     <form class="sv-header__search" (ngSubmit)="onSearch()">
-      <input
-        type="text"
-        placeholder="Search headphones, keyboards, mice, chargers..."
-        [(ngModel)]="searchQuery"
-        name="navSearch"
-        autocomplete="off"
-        aria-label="Search products"
-      />
+      <input type="text" placeholder="Search headphones, keyboards, mice, chargers..." [(ngModel)]="searchQuery"
+        name="navSearch" autocomplete="off" aria-label="Search products" />
       <button type="submit" class="sv-header__search-btn" aria-label="Search button">
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
@@ -39,7 +35,8 @@
       </a>
 
       <!-- Wishlist with live counter -->
-      <a routerLink="/profile" [queryParams]="{tab: 'wishlist'}" class="sv-header__nav-link" routerLinkActive="active" title="Wishlist">
+      <a routerLink="/profile" [queryParams]="{tab: 'wishlist'}" class="sv-header__nav-link" routerLinkActive="active"
+        title="Wishlist">
         <i class="fa-regular fa-heart"></i>
         <span>Wishlist</span>
         <span class="sv-badge-count" *ngIf="wishlistCount > 0">{{ wishlistCount }}</span>
@@ -54,43 +51,43 @@
 
       <!-- User Account Menu -->
       <div class="position-relative" (mouseleave)="userMenuOpen = false">
-        <button
-          type="button"
-          class="sv-header__nav-link bg-transparent border-0"
-          (click)="toggleUserMenu()"
-          aria-label="Account menu"
-        >
+        <button type="button" class="sv-header__nav-link bg-transparent border-0" (click)="toggleUserMenu()"
+          aria-label="Account menu">
           <i class="fa-regular fa-user"></i>
           <span>Account</span>
         </button>
 
         <!-- Dropdown menu -->
-        <div
-          class="position-absolute end-0 mt-2 bg-white border rounded-3 shadow-lg py-2"
-          style="min-width: 190px; z-index: 1050;"
-          *ngIf="userMenuOpen"
-        >
+        <div class="position-absolute end-0 mt-2 bg-white border rounded-3 shadow-lg py-2"
+          style="min-width: 190px; z-index: 1050;" *ngIf="userMenuOpen">
           <ng-container *ngIf="isLoggedIn">
-            <a routerLink="/profile" class="dropdown-item px-3 py-2 text-dark d-flex align-items-center gap-2" (click)="userMenuOpen = false">
+            <a routerLink="/profile" class="dropdown-item px-3 py-2 text-dark d-flex align-items-center gap-2"
+              (click)="userMenuOpen = false">
               <i class="fa-regular fa-id-badge text-muted"></i> My Profile
             </a>
-            <a routerLink="/profile" [queryParams]="{tab: 'orders'}" class="dropdown-item px-3 py-2 text-dark d-flex align-items-center gap-2" (click)="userMenuOpen = false">
+            <a routerLink="/profile" [queryParams]="{tab: 'orders'}"
+              class="dropdown-item px-3 py-2 text-dark d-flex align-items-center gap-2" (click)="userMenuOpen = false">
               <i class="fa-solid fa-box text-muted"></i> My Orders
             </a>
-            <a routerLink="/profile" [queryParams]="{tab: 'wishlist'}" class="dropdown-item px-3 py-2 text-dark d-flex align-items-center gap-2" (click)="userMenuOpen = false">
+            <a routerLink="/profile" [queryParams]="{tab: 'wishlist'}"
+              class="dropdown-item px-3 py-2 text-dark d-flex align-items-center gap-2" (click)="userMenuOpen = false">
               <i class="fa-regular fa-heart text-muted"></i> Wishlist
             </a>
             <hr class="my-1 border-light">
-            <button class="dropdown-item px-3 py-2 text-danger d-flex align-items-center gap-2 border-0 bg-transparent w-100 text-start" (click)="logout()">
+            <button
+              class="dropdown-item px-3 py-2 text-danger d-flex align-items-center gap-2 border-0 bg-transparent w-100 text-start"
+              (click)="logout()">
               <i class="fa-solid fa-right-from-bracket"></i> Sign Out
             </button>
           </ng-container>
 
           <ng-container *ngIf="!isLoggedIn">
-            <a routerLink="/login" class="dropdown-item px-3 py-2 text-dark d-flex align-items-center gap-2" (click)="userMenuOpen = false">
+            <a routerLink="/login" class="dropdown-item px-3 py-2 text-dark d-flex align-items-center gap-2"
+              (click)="userMenuOpen = false">
               <i class="fa-solid fa-right-to-bracket text-muted"></i> Sign In
             </a>
-            <a routerLink="/signup" class="dropdown-item px-3 py-2 text-dark d-flex align-items-center gap-2" (click)="userMenuOpen = false">
+            <a routerLink="/signup" class="dropdown-item px-3 py-2 text-dark d-flex align-items-center gap-2"
+              (click)="userMenuOpen = false">
               <i class="fa-solid fa-user-plus text-muted"></i> Create Account
             </a>
           </ng-container>
@@ -98,11 +95,8 @@
       </div>
 
       <!-- Mobile Hamburger Toggle -->
-      <button
-        class="sv-header__mobile-toggle d-md-none"
-        (click)="toggleMobileMenu()"
-        aria-label="Toggle navigation menu"
-      >
+      <button class="sv-header__mobile-toggle d-md-none" (click)="toggleMobileMenu()"
+        aria-label="Toggle navigation menu">
         <i class="fa-solid" [ngClass]="mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
       </button>
     </nav>
@@ -111,7 +105,8 @@
   <!-- Category Nav Strip below Header -->
   <div class="sv-category-bar">
     <div class="sv-category-bar__inner">
-      <a routerLink="/products" [queryParams]="{category: 'all'}" class="sv-category-bar__link" routerLinkActive="active">
+      <a routerLink="/products" [queryParams]="{category: 'all'}" class="sv-category-bar__link"
+        routerLinkActive="active">
         <i class="fa-solid fa-border-all"></i> All Categories
       </a>
       <a routerLink="/products" [queryParams]="{category: 'Audio'}" class="sv-category-bar__link">
@@ -147,7 +142,8 @@
       <a routerLink="/products" class="py-2 text-dark fw-semibold" (click)="mobileMenuOpen = false">
         <i class="fa-solid fa-bag-shopping me-2"></i> All Products
       </a>
-      <a routerLink="/profile" [queryParams]="{tab: 'wishlist'}" class="py-2 text-dark fw-semibold" (click)="mobileMenuOpen = false">
+      <a routerLink="/profile" [queryParams]="{tab: 'wishlist'}" class="py-2 text-dark fw-semibold"
+        (click)="mobileMenuOpen = false">
         <i class="fa-regular fa-heart me-2"></i> Wishlist ({{ wishlistCount }})
       </a>
       <a routerLink="/cart" class="py-2 text-dark fw-semibold" (click)="mobileMenuOpen = false">
@@ -155,10 +151,14 @@
       </a>
       <hr class="my-2">
       <div class="fw-bold text-muted small mb-1">POPULAR CATEGORIES</div>
-      <a routerLink="/products" [queryParams]="{category: 'Audio'}" class="py-1 text-secondary" (click)="mobileMenuOpen = false">Audio & Headphones</a>
-      <a routerLink="/products" [queryParams]="{category: 'Keyboards & Mice'}" class="py-1 text-secondary" (click)="mobileMenuOpen = false">Mechanical Keyboards</a>
-      <a routerLink="/products" [queryParams]="{category: 'Power & Charging'}" class="py-1 text-secondary" (click)="mobileMenuOpen = false">Power Banks & Chargers</a>
-      <a routerLink="/products" [queryParams]="{category: 'Desk Setup & Hubs'}" class="py-1 text-secondary" (click)="mobileMenuOpen = false">Desk Setup & Docks</a>
+      <a routerLink="/products" [queryParams]="{category: 'Audio'}" class="py-1 text-secondary"
+        (click)="mobileMenuOpen = false">Audio & Headphones</a>
+      <a routerLink="/products" [queryParams]="{category: 'Keyboards & Mice'}" class="py-1 text-secondary"
+        (click)="mobileMenuOpen = false">Mechanical Keyboards</a>
+      <a routerLink="/products" [queryParams]="{category: 'Power & Charging'}" class="py-1 text-secondary"
+        (click)="mobileMenuOpen = false">Power Banks & Chargers</a>
+      <a routerLink="/products" [queryParams]="{category: 'Desk Setup & Hubs'}" class="py-1 text-secondary"
+        (click)="mobileMenuOpen = false">Desk Setup & Docks</a>
       <hr class="my-2">
       <ng-container *ngIf="!isLoggedIn">
         <a routerLink="/login" class="btn btn-outline-dark w-100 mb-2" (click)="mobileMenuOpen = false">Sign In</a>
