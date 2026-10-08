@@ -1,0 +1,35 @@
+
+<div class="container-fluid" style="background-color: #C4D4F2;">
+<div class="row d-flex justify-content-center">
+  <input type="text" name="search" placeholder="search" class="form-control w-50 my-5 border border-3 " [(ngModel)]="doserche">
+</div>
+
+<app-mainproduct [doserche]="doserche"
+(eventonProdict)="add($event)"></app-mainproduct>
+
+<!-- <div class="container my-2">
+  <table class="table table-bordered table-striped-columns table-primary">
+    <thead>
+      <tr>
+    <td class="text-center">name</td>
+    <td class="text-center">Price</td>
+    <td class="text-center">Totial Price</td>
+    <td class="text-center" colspan="2">Quantity</td>
+  </tr>
+  </thead>
+  <tbody>
+  @for (el of prodict; track prodict) {
+  <tr>
+    <td class="text-center">{{el.pname}}</td>
+    <td class="text-center">{{el.psarly}}</td>
+    <td class="text-center">{{el.psarly*el.pquantity}}</td>
+    <td class="text-center">{{el.pquantity}}</td>
+    <td class="text-center">
+      <button (click)="remove(el)"><i class="fa-solid fa-trash"></i></button>
+    </td>
+  </tr>
+}
+</tbody>
+</table>
+</div> -->
+</div>
