@@ -1,45 +1,39 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { User } from '../../models/user';
-import { Router } from '@angular/router';
-import { UserService } from '../../Service/user.service';
+import { Router, RouterModule } from '@angular/router';
 import { UserAuthService } from '../../Service/user-auth.service';
-import { ServiceService } from '../../Service/service.service';
-import { UserServiceService } from '../../Service/user-service.service';
+import { ToastService } from '../../Service/toast.service';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './sign-up.component.html',
-  styleUrl: './sign-up.component.css',
+  styleUrl: './sign-up.component.css'
 })
 export class SignUpComponent {
-  user: User = {} as User;
-  userData!:User|null
+  user: User = {
+    name: '',
+    email: '',
+    password: '',
+    address: 'Cairo, Egypt'
+  } as User;
+
   constructor(
     private router: Router,
-    private ServiceAPI: UserService,
-    private Service: UserServiceService,
-    private userAuth: UserAuthService
-  ) {
-         this.ServiceAPI.loadAllUsers()
-  }
+    private userAuth: UserAuthService,
+    private toastService: ToastService
+  ) {}
 
-  adduser() {
-    // this.ServiceAPI.addUser(this.user).subscribe((data) => {
-      // });
-      if (this.user.email) {
-        // تخزين البيانات في الخدمة
-        this.ServiceAPI.signUpUser(this.user);
-          this.router.navigate(['/home']);
+  onSubmit(): void {
+    if (!this.user.name || !this.user.email || !this.user.password) {
+      this.toastService.error('Please fill in all required fields');
+      return;
     }
+    this.userAuth.login(this.user.email);
+    this.toastService.success(`Welcome to ShopVibe, ${this.user.name}!`);
+    this.router.navigate(['/home']);
   }
-
-
-  loginx(val: string) {
-    this.userAuth.login(val);
-  }
-
 }

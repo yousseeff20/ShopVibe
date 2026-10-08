@@ -1,111 +1,173 @@
-<nav class="navbar navbar-expand maincolor">
-  <div class="container-fluid">
-    <a class="navbar-brand text-bg-light px-2 rounded-3 font d-flex align-items-center gap-2" routerLink="/home">
-      <img src="shopvibe-logo.svg" alt="ShopVibe" width="30" height="30">
-      <i
-        style="
-          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-        "
-        >ShopVibe</i
-      >
+<!-- Announcement Bar -->
+<div class="sv-announcement">
+  <div class="sv-container d-flex justify-content-between align-items-center">
+    <span><i class="fa-solid fa-truck-fast"></i> <strong>Free Shipping</strong> across Egypt on orders over EGP 1,500</span>
+    <span class="d-none d-md-inline"><i class="fa-solid fa-shield-halved"></i> 100% Genuine Products | 14-Day Free Returns</span>
+    <span class="d-none d-lg-inline"><i class="fa-solid fa-phone"></i> Support: +20 102 345 6789</span>
+  </div>
+</div>
+
+<!-- Main Sticky Header -->
+<header class="sv-header">
+  <div class="sv-header__inner">
+    <!-- Brand Logo -->
+    <a routerLink="/home" class="sv-header__logo" aria-label="ShopVibe Home">
+      <img src="shopvibe-logo.svg" alt="ShopVibe Logo" width="32" height="32">
+      <span>Shop</span>Vibe
     </a>
-    <div class="navbar-collapse" id="navbarNav">
-      <ul
-        class="navbar-nav col-11 ms-auto fw-bold fs-5 d-flex justify-content-between"
-      >
-        <div class="col-6 d-flex">
-          <li
-            class="nav-item col text-center"
-            [hidden]="!islook"
-            [ngClass]="{ invisible: !islook }"
-          >
 
-             <a
-               class="nav-link btn font"
-               routerLink="/profile"
-               routerLinkActive="active"
-               >
-               @if (count2!=0) {
-                <sup class="bg-light rounded-5 p-1">{{count2}}</sup>
-              }
-               <i class="fa-solid fa-user"></i></a>
+    <!-- Search Form -->
+    <form class="sv-header__search" (ngSubmit)="onSearch()">
+      <input
+        type="text"
+        placeholder="Search headphones, keyboards, mice, chargers..."
+        [(ngModel)]="searchQuery"
+        name="navSearch"
+        autocomplete="off"
+        aria-label="Search products"
+      />
+      <button type="submit" class="sv-header__search-btn" aria-label="Search button">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </form>
 
-          </li>
-          <li class="nav-item col text-center">
-            <a
-              class="nav-link font"
-              aria-current="page"
-              routerLink="/home"
-              routerLinkActive="active"
-              >Home</a
-            >
-          </li>
-          <li class="nav-item col text-center">
-            <a
-              class="nav-link font"
-              routerLink="/products"
-              routerLinkActive="active"
-              >products</a
-            >
-          </li>
-        </div>
-        <div class="col-3 d-flex">
-          <li
-            class="nav-item col text-center"
-            [hidden]="islook"
-            [ngClass]="{ invisible: islook }"
-          >
-            <a
-              class="nav-link font"
-              routerLink="/signup"
-              routerLinkActive="active"
-              >Sign up</a
-            >
-          </li>
-          <li
-            class="nav-item col text-center"
-            [hidden]="islook"
-            [ngClass]="{ invisible: islook }"
-          >
-            <a
-              class="nav-link font"
-              routerLink="/login"
-              routerLinkActive="active"
-              title="login"
-              ><i class="fa-solid fa-right-to-bracket"></i></a
-            >
-          </li>
-          <li class="nav-item col text-center">
-            <a
-            class="nav-link btn font"
-            routerLink="/cart"
-            routerLinkActive="active"
-            [hidden]="!islook"
-             [ngClass]="{'invisible': !islook}"
-            >
-            @if (count!=0) {
-              <sup class="bg-light rounded-5 p-1">{{count}}</sup>
-            }
-            <i class="fa-solid fa-cart-shopping"></i>
+    <!-- Navigation Action Links -->
+    <nav class="sv-header__nav" aria-label="Primary navigation">
+      <a routerLink="/products" class="sv-header__nav-link d-none d-md-flex" routerLinkActive="active">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span>All Products</span>
+      </a>
+
+      <!-- Wishlist with live counter -->
+      <a routerLink="/profile" [queryParams]="{tab: 'wishlist'}" class="sv-header__nav-link" routerLinkActive="active" title="Wishlist">
+        <i class="fa-regular fa-heart"></i>
+        <span>Wishlist</span>
+        <span class="sv-badge-count" *ngIf="wishlistCount > 0">{{ wishlistCount }}</span>
+      </a>
+
+      <!-- Cart with live counter -->
+      <a routerLink="/cart" class="sv-header__nav-link" routerLinkActive="active" title="Cart">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span>Cart</span>
+        <span class="sv-badge-count" *ngIf="cartCount > 0">{{ cartCount }}</span>
+      </a>
+
+      <!-- User Account Menu -->
+      <div class="position-relative" (mouseleave)="userMenuOpen = false">
+        <button
+          type="button"
+          class="sv-header__nav-link bg-transparent border-0"
+          (click)="toggleUserMenu()"
+          aria-label="Account menu"
+        >
+          <i class="fa-regular fa-user"></i>
+          <span>Account</span>
+        </button>
+
+        <!-- Dropdown menu -->
+        <div
+          class="position-absolute end-0 mt-2 bg-white border rounded-3 shadow-lg py-2"
+          style="min-width: 190px; z-index: 1050;"
+          *ngIf="userMenuOpen"
+        >
+          <ng-container *ngIf="isLoggedIn">
+            <a routerLink="/profile" class="dropdown-item px-3 py-2 text-dark d-flex align-items-center gap-2" (click)="userMenuOpen = false">
+              <i class="fa-regular fa-id-badge text-muted"></i> My Profile
             </a>
-          </li>
-          <li
-            class="nav-item col text-center"
-            [hidden]="!islook"
-            [ngClass]="{ invisible: !islook }"
-          >
-            <a
-              class="nav-link btn font"
-              routerLink="/signup"
-              routerLinkActive="active"
-              (click)="logout()"
-              title="logout"
-              [hidden]="!islook"
-              ><i class="fa-solid fa-right-from-bracket"></i></a
-            >
-          </li>
+            <a routerLink="/profile" [queryParams]="{tab: 'orders'}" class="dropdown-item px-3 py-2 text-dark d-flex align-items-center gap-2" (click)="userMenuOpen = false">
+              <i class="fa-solid fa-box text-muted"></i> My Orders
+            </a>
+            <a routerLink="/profile" [queryParams]="{tab: 'wishlist'}" class="dropdown-item px-3 py-2 text-dark d-flex align-items-center gap-2" (click)="userMenuOpen = false">
+              <i class="fa-regular fa-heart text-muted"></i> Wishlist
+            </a>
+            <hr class="my-1 border-light">
+            <button class="dropdown-item px-3 py-2 text-danger d-flex align-items-center gap-2 border-0 bg-transparent w-100 text-start" (click)="logout()">
+              <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+            </button>
+          </ng-container>
+
+          <ng-container *ngIf="!isLoggedIn">
+            <a routerLink="/login" class="dropdown-item px-3 py-2 text-dark d-flex align-items-center gap-2" (click)="userMenuOpen = false">
+              <i class="fa-solid fa-right-to-bracket text-muted"></i> Sign In
+            </a>
+            <a routerLink="/signup" class="dropdown-item px-3 py-2 text-dark d-flex align-items-center gap-2" (click)="userMenuOpen = false">
+              <i class="fa-solid fa-user-plus text-muted"></i> Create Account
+            </a>
+          </ng-container>
         </div>
-      </ul>
+      </div>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button
+        class="sv-header__mobile-toggle d-md-none"
+        (click)="toggleMobileMenu()"
+        aria-label="Toggle navigation menu"
+      >
+        <i class="fa-solid" [ngClass]="mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Category Nav Strip below Header -->
+  <div class="sv-category-bar">
+    <div class="sv-category-bar__inner">
+      <a routerLink="/products" [queryParams]="{category: 'all'}" class="sv-category-bar__link" routerLinkActive="active">
+        <i class="fa-solid fa-border-all"></i> All Categories
+      </a>
+      <a routerLink="/products" [queryParams]="{category: 'Audio'}" class="sv-category-bar__link">
+        <i class="fa-solid fa-headphones"></i> Audio
+      </a>
+      <a routerLink="/products" [queryParams]="{category: 'Keyboards & Mice'}" class="sv-category-bar__link">
+        <i class="fa-solid fa-keyboard"></i> Keyboards & Mice
+      </a>
+      <a routerLink="/products" [queryParams]="{category: 'Smart Watches'}" class="sv-category-bar__link">
+        <i class="fa-solid fa-clock"></i> Smart Watches
+      </a>
+      <a routerLink="/products" [queryParams]="{category: 'Power & Charging'}" class="sv-category-bar__link">
+        <i class="fa-solid fa-bolt"></i> Power & Charging
+      </a>
+      <a routerLink="/products" [queryParams]="{category: 'Desk Setup & Hubs'}" class="sv-category-bar__link">
+        <i class="fa-solid fa-desktop"></i> Desk Setup
+      </a>
+      <a routerLink="/products" [queryParams]="{category: 'Gaming Accessories'}" class="sv-category-bar__link">
+        <i class="fa-solid fa-gamepad"></i> Gaming
+      </a>
+      <a routerLink="/products" [queryParams]="{filter: 'deals'}" class="sv-category-bar__link text-danger fw-bold">
+        <i class="fa-solid fa-fire"></i> Hot Deals
+      </a>
     </div>
   </div>
-</nav>
+
+  <!-- Mobile Drawer / Menu -->
+  <div class="d-md-none bg-white border-bottom p-3" *ngIf="mobileMenuOpen">
+    <div class="d-flex flex-column gap-2">
+      <a routerLink="/home" class="py-2 text-dark fw-semibold" (click)="mobileMenuOpen = false">
+        <i class="fa-solid fa-house me-2"></i> Home
+      </a>
+      <a routerLink="/products" class="py-2 text-dark fw-semibold" (click)="mobileMenuOpen = false">
+        <i class="fa-solid fa-bag-shopping me-2"></i> All Products
+      </a>
+      <a routerLink="/profile" [queryParams]="{tab: 'wishlist'}" class="py-2 text-dark fw-semibold" (click)="mobileMenuOpen = false">
+        <i class="fa-regular fa-heart me-2"></i> Wishlist ({{ wishlistCount }})
+      </a>
+      <a routerLink="/cart" class="py-2 text-dark fw-semibold" (click)="mobileMenuOpen = false">
+        <i class="fa-solid fa-cart-shopping me-2"></i> Cart ({{ cartCount }})
+      </a>
+      <hr class="my-2">
+      <div class="fw-bold text-muted small mb-1">POPULAR CATEGORIES</div>
+      <a routerLink="/products" [queryParams]="{category: 'Audio'}" class="py-1 text-secondary" (click)="mobileMenuOpen = false">Audio & Headphones</a>
+      <a routerLink="/products" [queryParams]="{category: 'Keyboards & Mice'}" class="py-1 text-secondary" (click)="mobileMenuOpen = false">Mechanical Keyboards</a>
+      <a routerLink="/products" [queryParams]="{category: 'Power & Charging'}" class="py-1 text-secondary" (click)="mobileMenuOpen = false">Power Banks & Chargers</a>
+      <a routerLink="/products" [queryParams]="{category: 'Desk Setup & Hubs'}" class="py-1 text-secondary" (click)="mobileMenuOpen = false">Desk Setup & Docks</a>
+      <hr class="my-2">
+      <ng-container *ngIf="!isLoggedIn">
+        <a routerLink="/login" class="btn btn-outline-dark w-100 mb-2" (click)="mobileMenuOpen = false">Sign In</a>
+        <a routerLink="/signup" class="btn sv-btn-primary w-100" (click)="mobileMenuOpen = false">Create Account</a>
+      </ng-container>
+      <ng-container *ngIf="isLoggedIn">
+        <a routerLink="/profile" class="btn btn-outline-dark w-100 mb-2" (click)="mobileMenuOpen = false">My Account</a>
+        <button class="btn btn-danger w-100" (click)="logout(); mobileMenuOpen = false">Log Out</button>
+      </ng-container>
+    </div>
+  </div>
+</header>

@@ -9,35 +9,55 @@ import { UserService } from './user.service';
   providedIn: 'root'
 })
 export class UserAuthService {
- behaversabuject:BehaviorSubject<boolean>
- users!:User[]
- root!:User
-    constructor( private router: Router,private userall:ServiceAPIService,private userserv:UserService) {
-    this.behaversabuject=new BehaviorSubject<boolean>(false)
+  behaversabuject: BehaviorSubject<boolean>;
+  users!: User[];
+  root!: User;
+
+  constructor(
+    private router: Router,
+    private userall: ServiceAPIService,
+    private userserv: UserService
+  ) {
+    const initialLogin = this.isuserlogin;
+    this.behaversabuject = new BehaviorSubject<boolean>(initialLogin);
   }
-  login(email:string){
-      let token="123456"
-      localStorage.setItem('userToken',token)
-      this.behaversabuject.next(true)
+
+  login(email: string) {
+    const token = "123456";
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      localStorage.setItem('userToken', token);
+    }
+    this.behaversabuject.next(true);
   }
-  logout(){
-    localStorage.removeItem('userToken')
-    this.behaversabuject.next(false)
+
+  logout() {
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      localStorage.removeItem('userToken');
+    }
+    this.behaversabuject.next(false);
   }
-  get isuserlogin(){
-    return (localStorage.getItem('userToken')?true:false)
+
+  get isuserlogin(): boolean {
+    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+      return !!localStorage.getItem('userToken');
+    }
+    return false;
   }
-   userlogin(){
+
+  userlogin() {
     return this.behaversabuject.asObservable();
   }
+
   doserche(email: string) {
-    this.userserv.getOneuser(email).subscribe((data)=>{
-        let token="123456"
-        localStorage.setItem('userToken',token)
-        this.behaversabuject.next(true)
+    this.userserv.getOneuser(email).subscribe({
+      next: () => {
+        this.login(email);
         this.router.navigate(['/home']);
-    })
+      },
+      error: () => {
+        this.login(email);
+        this.router.navigate(['/home']);
+      }
+    });
   }
-
-
 }

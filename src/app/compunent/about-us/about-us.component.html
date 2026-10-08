@@ -1,62 +1,60 @@
-<div class="container my-5 d-flex justify-content-center">
-  <form class="row w-50 gy-3 gx-0 py-3 shadow-lg color rounded-2" (ngSubmit)="adduser()" #login="ngForm">
-    <h3 class="text-center fw-bolder my-1">Add Credit Card</h3>
-    <div class="col-10 mx-auto">
-      <label for="inputEmail4" class="form-label">Card Number</label>
-      <input
-        type="text"
-        class="form-control"
-        id="inputEmail4"
-        required
-        name="Card"
-        [(ngModel)]="user.cardnumber"
-        #Card="ngModel"
-        minlength="15"
-        maxlength="16"
-        pattern="*[0-9]"
-        [ngClass]="{'is-invalid': (Card.dirty || Card.touched)&& Card.invalid,
-          'is-valid':Card.valid
-        }"
-      />
-      <div class="invalid-feedback">
-        @if (Card.errors?.['required'] ) {
-          <span>card number is required</span>
-        }
-        @else if (Card.errors?.['maxlength'] ) {
-          <span>card number most be 16 number</span>
-        }
+<div class="sv-container py-5">
+  <!-- Story Hero -->
+  <div class="text-center max-w-700 mx-auto mb-5">
+    <span class="badge bg-danger-subtle text-danger px-3 py-2 fw-bold text-uppercase mb-2">Our Mission in Egypt</span>
+    <h1 class="display-6 fw-bold text-dark mb-3">Engineered for Everyday Creators, Developers & Tech Enthusiasts</h1>
+    <p class="lead text-secondary">
+      ShopVibe was born in Cairo with a clear purpose: to bridge the gap between world-class productivity hardware and Egyptian tech users.
+    </p>
+  </div>
+
+  <!-- Key Pillars Grid -->
+  <div class="row g-4 mb-5">
+    <div class="col-md-4">
+      <div class="card border rounded-3 p-4 bg-white shadow-sm h-100">
+        <div class="rounded-circle bg-danger-subtle text-danger p-3 d-flex align-items-center justify-content-center mb-3" style="width: 52px; height: 52px;">
+          <i class="fa-solid fa-award fs-4"></i>
+        </div>
+        <h4 class="h5 fw-bold mb-2">100% Genuine Authorized Stock</h4>
+        <p class="text-secondary small mb-0">
+          Every mechanical keyboard, audiophile headphone, and GaN charger is sourced directly from certified global distributors with valid local warranties in Egypt.
+        </p>
       </div>
     </div>
-    <div class="col-10 mx-auto">
-      <label for="inputPassword4" class="form-label">CVV</label>
-      <input
-        type="text"
-        class="form-control"
-        id="inputPassword4"
-        required
-        name="CVV"
-        [(ngModel)]="user.cvv"
-        #CVV="ngModel"
-        maxlength="4"
-        minlength="3"
-        pattern="*[0-9]"
-        [ngClass]="{'is-invalid': (CVV.dirty || CVV.touched)&& CVV.invalid,
-          'is-valid':CVV.valid
-        }"
-      />
-      <div class="invalid-feedback">
-        @if (CVV.errors?.['required'] ) {
-          <span>CVV is required</span>
-        } @else if (CVV.errors?.['minlength'] ) {
-          <span>CVV most be at least 3 number</span>
-        }
-        @else if (CVV.errors?.['maxlength'] ) {
-          <span>CVV most be at max number is 4</span>
-        }
+
+    <div class="col-md-4">
+      <div class="card border rounded-3 p-4 bg-white shadow-sm h-100">
+        <div class="rounded-circle bg-danger-subtle text-danger p-3 d-flex align-items-center justify-content-center mb-3" style="width: 52px; height: 52px;">
+          <i class="fa-solid fa-bolt fs-4"></i>
+        </div>
+        <h4 class="h5 fw-bold mb-2">Real Local Warehousing</h4>
+        <p class="text-secondary small mb-0">
+          No drop-shipping delays. All inventory shown on our platform is stocked directly in our New Cairo & 6th of October fulfillment hubs for next-day dispatch.
+        </p>
       </div>
     </div>
-    <div class="col-10 mx-auto">
-      <button type="submit" class="btn btn-dark" (click)="loginx()" [disabled]="login.invalid">login</button>
+
+    <div class="col-md-4">
+      <div class="card border rounded-3 p-4 bg-white shadow-sm h-100">
+        <div class="rounded-circle bg-danger-subtle text-danger p-3 d-flex align-items-center justify-content-center mb-3" style="width: 52px; height: 52px;">
+          <i class="fa-solid fa-headset fs-4"></i>
+        </div>
+        <h4 class="h5 fw-bold mb-2">Passionate Tech Support</h4>
+        <p class="text-secondary small mb-0">
+          Our team consists of hardware builders and keyboard nerds who understand switch actuation force, Bluetooth codec bitrates, and multi-monitor daisy chains.
+        </p>
+      </div>
     </div>
-  </form>
+  </div>
+
+  <!-- CTA Box -->
+  <div class="rounded-4 p-5 text-center text-white" style="background: linear-gradient(135deg, #111827 0%, #1F2937 100%);">
+    <h2 class="fw-bold mb-3">Ready to Elevate Your Workspace?</h2>
+    <p class="text-light opacity-75 max-w-500 mx-auto mb-4">
+      Explore our curated catalog of authentic mechanical keyboards, wireless earbuds, GaN fast chargers, and ergonomic desk gear today.
+    </p>
+    <a routerLink="/products" class="btn sv-btn-primary px-5 py-2 fw-semibold">
+      <i class="fa-solid fa-bag-shopping me-2"></i> Browse All Tech Gear
+    </a>
+  </div>
 </div>

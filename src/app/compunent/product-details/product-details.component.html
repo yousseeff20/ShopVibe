@@ -1,51 +1,279 @@
-<div class="container-fluid">
-<div class="row mb-3">
-    <div class="col-4 my-2">
-      <img [src]="prod.pImg" class="img-fluid" alt="" />
+<!-- Breadcrumb -->
+<div class="bg-light border-bottom py-2" *ngIf="product">
+  <div class="sv-container d-flex justify-content-between align-items-center">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0 small">
+        <li class="breadcrumb-item"><a routerLink="/home">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/products">Products</a></li>
+        <li class="breadcrumb-item"><a [routerLink]="['/products']" [queryParams]="{category: product.category}">{{ product.category }}</a></li>
+        <li class="breadcrumb-item active text-truncate" style="max-width: 250px;">{{ product.name }}</li>
+      </ol>
+    </nav>
+    <div class="d-flex gap-2">
+      <button class="btn btn-sm btn-outline-secondary py-0 px-2" (click)="prevProduct()" [disabled]="allIds.indexOf(id) <= 0">
+        <i class="fa-solid fa-chevron-left"></i> Prev
+      </button>
+      <button class="btn btn-sm btn-outline-secondary py-0 px-2" (click)="nextProduct()" [disabled]="allIds.indexOf(id) >= allIds.length - 1">
+        Next <i class="fa-solid fa-chevron-right"></i>
+      </button>
     </div>
-    <div
-      class="col-8 d-grid justify-content-around align-content-around fw-bold fs-5"
-    >
-      <p class="text-center">{{ prod.pname }}</p>
-      <p class="text-center">{{ prod.pcateogryName }}</p>
-      <p class="text-center">Price : {{ prod.psarly }}</p>
-    </div>
-<div class="row d-flex justify-content-center">
-  <button
-          class="col-2 btn btn-dark color px-3 me-1"
-          (click)="addtocart(prod)"
-        >
-          <i class="fa-solid fa-cart-shopping pe-2"></i> buy
-        </button>
-</div>
   </div>
-  <div class="row my-5 d-grid justify-content-center">
-    <ul class="pagination">
-      <li class="page-item">
-        <button class="page-link"  aria-label="Previous"
-           (click)="prevfun()"
-           [disabled]="id==all_ids[0]"
-        >
-          <span aria-hidden="true">&laquo;</span>
-        </button>
-      </li>
-      <li class="page-item">
-        <button class="page-link"  aria-label="Next"
-        (click)="nextfun()"
-        [disabled]="id==all_ids[all_ids.length-1]"
-        >
-          <span aria-hidden="true">&raquo;</span>
-        </button>
-      </li>
-    </ul>
+</div>
 
-</div>
-  <div class="row my-5 d-flex justify-content-end">
-    <button
-      class="btn btn-secondary col-2 me-5 py-2 fw-bold fs-5"
-      (click)="goback()"
-    >
-      Go back
-    </button>
+<div class="sv-container py-4" *ngIf="loading">
+  <div class="sv-loading">
+    <div class="sv-spinner"></div>
+    <p>Loading product details...</p>
   </div>
+</div>
+
+<div class="sv-container py-4" *ngIf="!loading && product">
+  <!-- Top Product Grid -->
+  <div class="row g-4 mb-5">
+    <!-- Image Gallery -->
+    <div class="col-lg-6">
+      <div class="sv-product-detail__gallery">
+        <div class="sv-product-detail__main-image">
+          <img [src]="selectedImage" [alt]="product.name" />
+        </div>
+
+        <!-- Thumbnails -->
+        <div class="sv-product-detail__thumbs" *ngIf="product.images && product.images.length > 1">
+          <div
+            *ngFor="let img of product.images"
+            class="sv-product-detail__thumb"
+            [class.active]="selectedImage === img"
+            (click)="selectedImage = img"
+          >
+            <img [src]="img" [alt]="product.name" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="col-lg-6">
+      <div class="sv-product-detail__info">
+        <div class="sv-product-detail__brand">
+          Brand: <a [routerLink]="['/products']" [queryParams]="{brand: product.brand}">{{ product.brand }}</a>
+          <span class="mx-2">&bull;</span>
+          Category: <a [routerLink]="['/products']" [queryParams]="{category: product.category}">{{ product.category }}</a>
+        </div>
+
+        <h1 class="h2 fw-bold text-dark mb-2">{{ product.name }}</h1>
+
+        <!-- Rating -->
+        <div class="sv-product-detail__rating">
+          <span class="text-warning"><i class="fa-solid fa-star"></i></span>
+          <span class="sv-product-detail__rating-value">{{ product.rating }}</span>
+          <span class="sv-product-detail__rating-count">({{ product.reviewCount }} customer reviews)</span>
+          <span class="badge bg-success-subtle text-success ms-2"><i class="fa-solid fa-check me-1"></i> Verified Authentic</span>
+        </div>
+
+        <!-- Price Block -->
+        <div class="sv-product-detail__price-block">
+          <div class="d-flex align-items-baseline flex-wrap">
+            <span class="sv-product-detail__price">{{ product.price | currency : 'EGP ' : 'symbol' : '1.0-0' }}</span>
+            <span class="sv-product-detail__old-price" *ngIf="product.oldPrice">
+              {{ product.oldPrice | currency : 'EGP ' : 'symbol' : '1.0-0' }}
+            </span>
+            <span class="sv-product-detail__discount-tag" *ngIf="product.discountPercentage">
+              Save {{ product.discountPercentage }}%
+            </span>
+          </div>
+          <small class="text-muted d-block mt-1">All prices include Egyptian VAT & Customs duty.</small>
+        </div>
+
+        <!-- Stock Status -->
+        <div
+          class="sv-product-detail__stock"
+          [ngClass]="{
+            'in-stock': product.stock > 5,
+            'low-stock': product.stock > 0 && product.stock <= 5,
+            'out-of-stock': product.stock === 0
+          }"
+        >
+          <i [class]="product.stock > 0 ? 'fa-solid fa-circle-check text-success' : 'fa-solid fa-circle-xmark text-danger'"></i>
+          <span *ngIf="product.stock > 5" class="fw-semibold text-success">In Stock ({{ product.stock }} units ready to ship from Cairo warehouse)</span>
+          <span *ngIf="product.stock > 0 && product.stock <= 5" class="fw-semibold text-warning">Hurry, only {{ product.stock }} units left in stock!</span>
+          <span *ngIf="product.stock === 0" class="fw-semibold text-danger">Currently Out of Stock</span>
+        </div>
+
+        <!-- Short Description -->
+        <p class="text-secondary mb-4">{{ product.shortDescription }}</p>
+
+        <!-- Quantity & Add to Cart -->
+        <div class="d-flex flex-wrap align-items-center gap-3 mb-4" *ngIf="product.stock > 0">
+          <div class="sv-product-detail__quantity mb-0">
+            <button type="button" (click)="decrementQuantity()" [disabled]="quantity <= 1">-</button>
+            <span>{{ quantity }}</span>
+            <button type="button" (click)="incrementQuantity()" [disabled]="quantity >= product.stock">+</button>
+          </div>
+
+          <button
+            type="button"
+            class="sv-btn sv-btn-primary px-4 py-2"
+            (click)="addToCart()"
+          >
+            <i class="fa-solid fa-cart-shopping me-2"></i> Add to Cart
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-dark px-4 py-2"
+            (click)="buyNow()"
+          >
+            <i class="fa-solid fa-bolt me-1"></i> Buy Now
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-outline-secondary p-2 rounded-circle"
+            [class.text-danger]="isWishlisted"
+            [class.border-danger]="isWishlisted"
+            (click)="toggleWishlist()"
+            [title]="isWishlisted ? 'Saved to Wishlist' : 'Add to Wishlist'"
+          >
+            <i [class]="isWishlisted ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
+          </button>
+        </div>
+
+        <!-- Egypt Delivery Box -->
+        <div class="card border rounded-3 p-3 bg-light mb-4">
+          <div class="d-flex flex-column gap-2 small">
+            <div class="d-flex align-items-center gap-2">
+              <i class="fa-solid fa-truck-fast text-danger fs-6"></i>
+              <div>
+                <strong>Express Delivery in Egypt:</strong> Cairo & Giza within 24–48 hours. Other governorates within 2–4 days.
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <i class="fa-solid fa-box text-danger fs-6"></i>
+              <div>
+                <strong>Free Shipping:</strong> Automatically applied on orders over EGP 1,500.
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <i class="fa-solid fa-shield-halved text-danger fs-6"></i>
+              <div>
+                <strong>Official Warranty:</strong> 100% Genuine with official local distributor coverage.
+              </div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <i class="fa-solid fa-rotate-left text-danger fs-6"></i>
+              <div>
+                <strong>14-Day Return Policy:</strong> Egyptian Consumer Protection Agency compliant.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detailed Specifications & Description Tabs -->
+  <div class="card border rounded-3 mb-5 overflow-hidden">
+    <div class="card-header bg-white border-bottom p-0">
+      <ul class="nav nav-tabs card-header-tabs m-0 border-0" id="productTabs" role="tablist">
+        <li class="nav-item">
+          <button class="nav-link active px-4 py-3 fw-bold text-dark border-0 border-bottom border-3 border-danger" id="desc-tab" data-bs-toggle="tab" data-bs-target="#desc-pane" type="button">
+            Full Description
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body p-4">
+      <div class="row g-4">
+        <div class="col-lg-7">
+          <h4 class="fw-bold mb-3">Product Overview</h4>
+          <p class="text-secondary leading-relaxed mb-4">{{ product.description }}</p>
+
+          <h5 class="fw-bold mb-3">Key Highlights</h5>
+          <ul class="text-secondary mb-4">
+            <li>Original factory-sealed package with official Egyptian serial number.</li>
+            <li>Designed for demanding productivity setups and daily lifestyle usage.</li>
+            <li>Rigorous quality assurance with zero latency and high durability materials.</li>
+          </ul>
+        </div>
+
+        <div class="col-lg-5">
+          <h4 class="fw-bold mb-3">Technical Specifications</h4>
+          <table class="table table-sm table-bordered">
+            <tbody>
+              <tr>
+                <th class="bg-light w-50">Brand</th>
+                <td>{{ product.brand }}</td>
+              </tr>
+              <tr>
+                <th class="bg-light">Category</th>
+                <td>{{ product.category }}</td>
+              </tr>
+              <tr *ngFor="let spec of specEntries">
+                <th class="bg-light">{{ spec.key }}</th>
+                <td>{{ spec.value }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customer Reviews Section -->
+  <section class="card border rounded-3 p-4 mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+      <div>
+        <h3 class="h4 fw-bold mb-1">Customer Reviews ({{ reviews.length }})</h3>
+        <p class="text-muted small mb-0">Verified feedback from Egyptian customers</p>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <span class="fs-4 fw-bold text-dark">{{ product.rating }}</span>
+        <div class="text-warning small">
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star-half-stroke"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column gap-3" *ngIf="reviews.length > 0">
+      <div class="border-bottom pb-3" *ngFor="let rev of reviews">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+          <div class="d-flex align-items-center gap-2">
+            <span class="fw-bold text-dark">{{ rev.customerName }}</span>
+            <span class="badge bg-success-subtle text-success small" *ngIf="rev.verified">
+              <i class="fa-solid fa-circle-check me-1"></i> Verified Buyer
+            </span>
+          </div>
+          <small class="text-muted">{{ rev.date }}</small>
+        </div>
+        <div class="text-warning small mb-1">
+          <i class="fa-solid fa-star" *ngFor="let s of [1,2,3,4,5]"></i>
+        </div>
+        <div class="fw-semibold text-dark small mb-1">{{ rev.title }}</div>
+        <p class="text-secondary small mb-0">{{ rev.text }}</p>
+      </div>
+    </div>
+
+    <div *ngIf="reviews.length === 0" class="text-muted small py-3">
+      No reviews submitted yet for this product. Be the first Egyptian customer to share your thoughts!
+    </div>
+  </section>
+
+  <!-- Related Products -->
+  <section class="sv-section" *ngIf="relatedProducts.length > 0">
+    <div class="sv-section__header">
+      <div>
+        <h2 class="sv-section__title">Related Accessories</h2>
+        <p class="sv-section__subtitle">Frequently paired with this item</p>
+      </div>
+    </div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+      <div class="col" *ngFor="let rel of relatedProducts">
+        <app-product-card [product]="rel"></app-product-card>
+      </div>
+    </div>
+  </section>
 </div>

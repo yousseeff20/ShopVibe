@@ -1,48 +1,76 @@
-import { UserService } from './../../Service/user.service';
-import { UserAuthService } from './../../Service/user-auth.service';
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { ServiceAPIService } from '../../Service/service-api.service';
-import { CommonModule, NgClass } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ServiceService } from '../../Service/service.service';
-import { User } from '../../models/user';
-import { Interface } from '../../models/interface';
+import { UserAuthService } from '../../Service/user-auth.service';
+import { CartService } from '../../Service/cart.service';
+import { WishlistService } from '../../Service/wishlist.service';
+import { ProductService } from '../../Service/product.service';
+import { Category } from '../../models/product.interface';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterModule, FormsModule,NgClass],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css',
+  styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit {
-  islook: boolean = true;
-  count:number=0
-  count2:number=0
-  root!:User[]
-  userone!:User
+  isLoggedIn: boolean = false;
+  cartCount: number = 0;
+  wishlistCount: number = 0;
+  searchQuery: string = '';
+  mobileMenuOpen: boolean = false;
+  userMenuOpen: boolean = false;
+  categories: Category[] = [];
+
   constructor(
-    private userAuth: UserAuthService,
-    private serche:ServiceService,
-    private service:ServiceAPIService
-  ) {
-    this.serche.getCartItems().subscribe((data)=>{
-       this.count=data.length
-    })
-    this.service.getloves().subscribe((x)=>{
-       this.count2=x.length
-    })
-  }
+    public userAuth: UserAuthService,
+    private cartService: CartService,
+    private wishlistService: WishlistService,
+    private productService: ProductService,
+    private router: Router
+  ) {}
+
   ngOnInit(): void {
-    this.userAuth.userlogin().subscribe((x) => {
-      this.islook = x;
+    this.isLoggedIn = this.userAuth.isuserlogin;
+    this.userAuth.userlogin().subscribe(status => {
+      this.isLoggedIn = status;
     });
 
+    this.cartService.items$.subscribe(() => {
+      this.cartCount = this.cartService.getItemCount();
+    });
+
+    this.wishlistService.items$.subscribe(items => {
+      this.wishlistCount = items.length;
+    });
+
+    this.productService.getCategories().subscribe(cats => {
+      this.categories = cats;
+    });
   }
-  logout() {
+
+  onSearch(): void {
+    if (this.searchQuery.trim()) {
+      this.router.navigate(['/products'], {
+        queryParams: { search: this.searchQuery.trim() }
+      });
+      this.mobileMenuOpen = false;
+    }
+  }
+
+  toggleMobileMenu(): void {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+  }
+
+  toggleUserMenu(): void {
+    this.userMenuOpen = !this.userMenuOpen;
+  }
+
+  logout(): void {
     this.userAuth.logout();
+    this.userMenuOpen = false;
+    this.router.navigate(['/home']);
   }
-
-
 }

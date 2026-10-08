@@ -1,92 +1,87 @@
-# 🛒 ShopVibe
+# ShopVibe 🇪🇬 — Egyptian Tech & Lifestyle E-Commerce
 
-Your go-to online shopping destination. **ShopVibe** delivers a seamless browsing experience with product discovery, secure authentication, and a buttery-smooth checkout flow — all powered by **Angular 18**.
-
-> **ShopVibe** — where every click feels like a vibe. 🎵
+A modern, production-grade e-commerce web application engineered for the Egyptian consumer tech market. Built with **Angular 18**, clean standalone architecture, and an original, restrained design system tailored for mechanical keyboards, wireless audiophile gear, fast charging tech, and desk setups.
 
 ---
 
-## ✨ Features
+## ⚡ What is ShopVibe?
 
-- **User Authentication** — Sign up, log in, and access protected routes with route guards
-- **Product Browsing** — View all products with category filtering and brand search
-- **Product Details** — Dedicated detail pages for each product
-- **Shopping Cart** — Add, remove, and update quantities with real-time totals
-- **Wishlist / Favorites** — Save products you love for later
-- **User Profile** — View and manage your account info
-- **Search** — Find products by name or brand
-- **Contact Page** — Reach out via a contact form
-- **SSR Support** — Server-side rendering with Angular Universal (Express)
-- **Responsive Design** — Mobile-friendly layout powered by Bootstrap 5
+ShopVibe is designed as a commercially credible Egyptian tech store inspired by the practical UX of platforms like Noon, Amazon Egypt, and Best Buy — but built with a completely original, clutter-free design language.
+
+Instead of generic demo templates or flashy AI gradients, ShopVibe features real-world e-commerce details:
+- **Authentic Egyptian pricing** in EGP (with real market values for brands like Soundcore, Logitech, Keychron, Anker, UGREEN, Xiaomi, and JBL).
+- **Egyptian delivery logic**: Free express shipping over EGP 1,500, with localized delivery rates for Cairo & Giza (24–48h) and outer governorates.
+- **Multiple payment options**: Cash on Delivery (COD), Visa/Mastercard, InstaPay Egypt, and mobile wallets (Vodafone Cash).
+- **Zero-failure fallback architecture**: Communicates with a mock REST API (`json-server`) while seamlessly falling back to local static catalog data if the API server is offline.
 
 ---
 
-## 🛠️ Tech Stack
+## 🚀 Key Highlights & Features
 
-| Layer        | Technology                          |
-| ------------ | ----------------------------------- |
-| Framework    | Angular 18                          |
-| Language     | TypeScript 5.5                      |
-| Styling      | Bootstrap 5.3, Font Awesome 6      |
-| HTTP / State | Angular HttpClient, RxJS, BehaviorSubject |
-| SSR          | Angular SSR (`@angular/ssr`) + Express |
-| Testing      | Jasmine + Karma                     |
-| API          | JSON Server (localhost:3000)        |
+### 🛒 Realistic E-Commerce Experience
+- **Announcement Strip**: Highlights free shipping thresholds, official Egyptian warranty, and Cairo hotline.
+- **Dynamic Header & Navigation**: Instant search autocomplete, live cart badge counter, live wishlist counter, and categorized quick-nav strip.
+- **Curated Homepage**:
+  - High-impact promotional hero campaign ("Upgrade Your Setup").
+  - Value propositions & trust guarantees (14-day replacement, CPA-compliant, 100% genuine stock).
+  - Category exploration grid (Audio, Keyboards & Mice, Smart Watches, GaN Chargers, Desk Hubs, Gaming).
+  - Real Best Sellers & discounted deal highlights.
+  - Interactive newsletter signup with instant promo codes (`WELCOME150`).
+- **Interactive Product Catalog**:
+  - Multi-faceted sidebar filtering: By category, brand, custom price range slider/inputs, star ratings (4.8+, 4.6+), and in-stock only.
+  - Real-time sorting: Featured, Price (Low to High), Price (High to Low), Highest Rated, Newest.
+  - Live query parameter synchronization (`/products?category=Audio&brand=Soundcore`).
+  - Pagination and responsive mobile drawer filter.
+- **Comprehensive Product Details**:
+  - Multi-image gallery with interactive thumbnail switching.
+  - Clear stock statuses (In Stock, Low Stock urgency warnings, Out of Stock).
+  - Quantity controls with live stock boundaries.
+  - Add to Cart + 1-Click "Buy Now" flow.
+  - Technical specifications matrix and verified Egyptian buyer reviews.
+  - Related accessories recommendations.
+- **Full Shopping Cart & Checkout**:
+  - LocalStorage persistence (cart and wishlist survive browser reloads).
+  - Egyptian shipping calculator and coupon system (try `VIBE10` for 10% off or `WELCOME` for EGP 150 off).
+  - Complete checkout flow collecting customer info, Egyptian governorates dropdown, and payment method choice.
+  - Professional order confirmation page with unique reference number (e.g. `SV-10294`) and delivery date estimation.
+- **User Dashboard & Order Tracking**:
+  - Order history with tracking badges (*Processing*, *Shipped*, *Delivered*).
+  - Wishlist management with 1-click "Move to Cart".
+  - Profile and saved Egyptian delivery addresses.
 
 ---
 
-## 📦 Getting Started
+## 🛠️ Tech Stack & Architecture
 
-### Prerequisites
+- **Frontend Framework**: Angular 18 (Standalone Components, Angular Router, Signals & RxJS BehaviorSubjects)
+- **Styling**: Tailored CSS Design System with CSS Custom Properties tokens (`src/styles.css`), Bootstrap 5 grid utilities, and Font Awesome 6 icons
+- **State Management**: Reactive BehaviorSubject services for Cart, Wishlist, Orders, and Toasts with LocalStorage synchronization
+- **Backend / Mock API**: JSON Server (`server/db.json`) on port 3000 with fallback data layer (`src/app/data/products.data.ts`)
+- **Typography**: Google Fonts Inter
 
-- **Node.js** ≥ 18
-- **Angular CLI** ≥ 18.2 (`npm i -g @angular/cli`)
-- **JSON Server** (or any REST API running on `http://localhost:3000`)
+---
 
-### Installation
+## 💻 Getting Started
 
+### 1. Clone & Install Dependencies
 ```bash
-# Clone the repo
-git clone <your-repo-url>
-cd Ecommerce
-
-# Install dependencies
+git clone https://github.com/yousseeff20/ShopVibe.git
+cd ShopVibe
 npm install
 ```
 
-### Running the App
-
+### 2. Run the Development Server
 ```bash
-# Start the dev server
-ng serve
+npx ng serve
 ```
+Navigate to `http://localhost:4200/` in your browser.
 
-Then open [http://localhost:4200](http://localhost:4200) in your browser.
-
-### Running the API (JSON Server)
-
-The app expects a REST API at `http://localhost:3000` with endpoints for `/prodact` and `/user`.
-
+### 3. Optional: Run JSON Server API
+To run the mock backend REST API with all 32+ products, reviews, and sample orders:
 ```bash
-# If using json-server
-npx json-server --watch db.json
+npx json-server --watch server/db.json --port 3000
 ```
-
-### Building for Production
-
-```bash
-ng build
-```
-
-Build artifacts are output to the `dist/` directory.
-
-### Running with SSR
-
-```bash
-# Build and serve with server-side rendering
-ng build
-node dist/ecomerce/server/server.mjs
-```
+> **Note**: Even if you do not run `json-server`, ShopVibe automatically falls back to bundled static products data with zero crashes.
 
 ---
 
@@ -94,83 +89,50 @@ node dist/ecomerce/server/server.mjs
 
 ```
 Ecommerce/
+├── server/
+│   ├── db.json                 # Mock backend database (32+ products, orders, categories)
+│   └── generate-data.js        # Data generator script
 ├── src/
 │   ├── app/
-│   │   ├── compunent/            # UI Components
-│   │   │   ├── home/             # Landing page
-│   │   │   ├── navbar/           # Navigation bar
-│   │   │   ├── footer/           # Footer
-│   │   │   ├── login/            # Login page
-│   │   │   ├── sign-up/          # Registration page
-│   │   │   ├── prodicute/        # Product listing
-│   │   │   ├── product-details/  # Single product view
-│   │   │   ├── mainproduct/      # Product card component
-│   │   │   ├── cart/             # Shopping cart
-│   │   │   ├── search/           # Search functionality
-│   │   │   ├── profile/          # User profile
-│   │   │   ├── about-us/         # About / Card page
-│   │   │   ├── contact-us/       # Contact form
-│   │   │   ├── main/             # Layout wrapper (navbar + router-outlet)
-│   │   │   └── error/            # 404 page
-│   │   ├── Service/              # Angular services
-│   │   │   ├── service-api       # Product API calls & wishlist
-│   │   │   ├── service           # Cart management & state
-│   │   │   ├── user              # User CRUD & auth state
-│   │   │   └── user-auth         # Login session tracking
-│   │   ├── Guards/               # Route guards (auth)
-│   │   ├── models/               # TypeScript interfaces (Product, User, Card)
-│   │   ├── pipes/                # Custom pipes
-│   │   ├── directives/           # Custom directives
-│   │   ├── app.routes.ts         # Route definitions
-│   │   ├── app.config.ts         # App providers & config
-│   │   └── app.component.ts      # Root component
-│   ├── environments/             # Environment configs (dev / prod)
-│   ├── index.html                # Entry HTML
-│   ├── main.ts                   # Client bootstrap
-│   ├── main.server.ts            # SSR bootstrap
-│   └── styles.css                # Global styles
-├── server/                       # Express SSR server files
-├── server.ts                     # SSR entry point
-├── angular.json                  # Angular workspace config
-├── package.json                  # Dependencies & scripts
-└── tsconfig.json                 # TypeScript config
+│   │   ├── compunent/
+│   │   │   ├── home/           # Homepage (Hero, Best Sellers, Trust, Deals)
+│   │   │   ├── navbar/         # Header, Search bar, and Category strip
+│   │   │   ├── footer/         # Egyptian localization footer & payments
+│   │   │   ├── prodicute/      # Product listing catalog with working filters
+│   │   │   ├── product-card/   # Reusable product card component
+│   │   │   ├── product-details/# Single product gallery, specs & reviews
+│   │   │   ├── cart/           # Cart, coupon validator & checkout flow
+│   │   │   ├── profile/        # Account dashboard, order history & wishlist
+│   │   │   ├── toast/          # Global toast notifications
+│   │   │   ├── about-us/       # Brand mission & Egyptian story
+│   │   │   ├── contact-us/     # Cairo support contact form & phone details
+│   │   │   ├── login/          # Clean login with 1-click demo button
+│   │   │   └── sign-up/        # User registration
+│   │   ├── data/
+│   │   │   └── products.data.ts# Bundled product catalog fallback data
+│   │   ├── models/
+│   │   │   └── product.interface.ts # TypeScript models & interfaces
+│   │   ├── Service/
+│   │   │   ├── product.service.ts   # Product API & local filtering
+│   │   │   ├── cart.service.ts      # Cart state & coupon logic
+│   │   │   ├── wishlist.service.ts  # Wishlist state & storage
+│   │   │   ├── order.service.ts     # Orders state & Egyptian tracking
+│   │   │   └── toast.service.ts     # User notification system
+│   │   └── app.routes.ts       # Application routes
+│   └── styles.css              # ShopVibe design system & variables
+└── package.json
 ```
 
 ---
 
-## 🧪 Testing
+## 🏷️ Test Coupons & Demo Credentials
 
-```bash
-# Run unit tests
-ng test
-```
-
-Tests run via **Karma** with **Jasmine** in a Chrome browser.
+- **10% Off Everything**: `VIBE10`
+- **EGP 150 Off First Order**: `WELCOME`
+- **Demo Login**: Available via the 1-click **Quick Demo Login** button on the `/login` page.
 
 ---
 
-## 📜 Available Scripts
+## 👨‍💻 Author
 
-| Script                     | Description                              |
-| -------------------------- | ---------------------------------------- |
-| `npm start`                | Start the dev server (`ng serve`)        |
-| `npm run build`            | Production build                         |
-| `npm run watch`            | Dev build in watch mode                  |
-| `npm test`                 | Run unit tests                           |
-| `npm run serve:ssr:ecomerce` | Serve the SSR build                    |
-
----
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/my-feature`)
-3. Commit your changes (`git commit -m "Add my feature"`)
-4. Push to the branch (`git push origin feature/my-feature`)
-5. Open a Pull Request
-
----
-
-## 📄 License
-
-This project is private and not currently published under an open-source license.
+Created with pride by [Youssef](https://github.com/yousseeff20).

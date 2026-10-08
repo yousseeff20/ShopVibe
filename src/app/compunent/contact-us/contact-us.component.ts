@@ -1,26 +1,41 @@
-import { AfterViewInit, Component } from '@angular/core';
-// import bootstrap from '../../../main.server';
-declare var bootstrap: any;
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ToastService } from '../../Service/toast.service';
+
 @Component({
   selector: 'app-contact-us',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, FormsModule],
   templateUrl: './contact-us.component.html',
   styleUrl: './contact-us.component.css'
 })
-export class ContactUsComponent implements AfterViewInit {
-    // bootstrap: any;
-  ngAfterViewInit(): void {
-    const carouselElement = document.getElementById('myCarousel');
-    const carousel = new bootstrap.Carousel(carouselElement, {
-      interval: 3000, // الوقت بين الشرائح (بالميلي ثانية)
-      wrap: true // إعادة التشغيل التلقائي
-    });
+export class ContactUsComponent {
+  formData = {
+    name: '',
+    email: '',
+    phone: '',
+    subject: 'Order Inquiry',
+    message: ''
+  };
 
-    // مثال على التحكم بالكاروسل برمجيًا
-    setTimeout(() => {
-      carousel.next(); // الانتقال إلى الشريحة التالية
-    }, 300);
+  submitted: boolean = false;
+
+  constructor(private toastService: ToastService) {}
+
+  onSubmit(): void {
+    if (!this.formData.name || !this.formData.email || !this.formData.message) {
+      this.toastService.error('Please fill in your name, email, and message.');
+      return;
+    }
+    this.submitted = true;
+    this.toastService.success('Thank you! Your message has been sent to our Cairo support team.');
+    this.formData = {
+      name: '',
+      email: '',
+      phone: '',
+      subject: 'Order Inquiry',
+      message: ''
+    };
   }
-
 }

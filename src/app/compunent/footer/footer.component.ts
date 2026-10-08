@@ -1,18 +1,14 @@
 import { Component } from '@angular/core';
-import { Class } from '../../models/class';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css'
 })
 export class FooterComponent {
-  course:Class;
-  date:Date=new Date();
-  constructor(){
-    this.course=new Class("ShopVibe",["sohag","cairo","Alexandria"],"shopvibe-logo.svg")
-  }
+  currentYear = new Date().getFullYear();
 }

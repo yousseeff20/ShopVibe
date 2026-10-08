@@ -8,12 +8,11 @@ import { ContactUsComponent } from './compunent/contact-us/contact-us.component'
 import { ProductDetailsComponent } from './compunent/product-details/product-details.component';
 import { LoginComponent } from './compunent/login/login.component';
 import { SignUpComponent } from './compunent/sign-up/sign-up.component';
-import { authAccessGuard } from './Guards/auth-access.guard';
 import { CartComponent } from './compunent/cart/cart.component';
 import { ProfileComponent } from './compunent/profile/profile.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/signup', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
     path: '',
     component: MainComponent,
@@ -21,47 +20,59 @@ export const routes: Routes = [
       {
         path: 'home',
         component: HomeComponent,
-        title: 'home',
-        canActivate: [authAccessGuard]
+        title: 'ShopVibe - Egyptian Tech & Lifestyle Gear'
       },
       {
         path: 'products',
         component: ProdicuteComponent,
-        title: 'products',
-        canActivate: [authAccessGuard]
+        title: 'ShopVibe - Products Catalog & Accessories'
       },
       {
         path: 'ProductDetails/:Prdid',
         component: ProductDetailsComponent,
-        title: 'Product Details',
-      },
-      {
-        path: 'Card',
-        component: AboutUsComponent,
-        title: 'Card',
-        canActivate: [authAccessGuard]
-      },
-      {
-        path: 'Contact',
-        component: ContactUsComponent,
-        title: 'Contact us',
-        canActivate: [authAccessGuard]
-      },
-      {
-        path: 'profile',
-        component: ProfileComponent,
-        title: 'profile',
-        canActivate: [authAccessGuard]
+        title: 'ShopVibe - Product Details'
       },
       {
         path: 'cart',
         component: CartComponent,
-        title: 'cart',
-        canActivate: [authAccessGuard]
+        title: 'ShopVibe - Shopping Cart & Checkout'
       },
-      { path: 'login', component: LoginComponent, title: 'Login' },
-      { path: 'signup', component: SignUpComponent, title: 'Sign up' },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+        title: 'ShopVibe - My Account & Orders'
+      },
+      {
+        path: 'Card',
+        component: AboutUsComponent,
+        title: 'ShopVibe - About Us'
+      },
+      {
+        path: 'about',
+        component: AboutUsComponent,
+        title: 'ShopVibe - About Us'
+      },
+      {
+        path: 'Contact',
+        component: ContactUsComponent,
+        title: 'ShopVibe - Contact Support'
+      },
+      {
+        path: 'contact',
+        component: ContactUsComponent,
+        title: 'ShopVibe - Contact Support'
+      },
+      {
+        path: 'login',
+        component: LoginComponent,
+        title: 'ShopVibe - Sign In'
+      },
+      {
+        path: 'signup',
+        component: SignUpComponent,
+        title: 'ShopVibe - Create Account'
+      }
     ],
   },
-  { path: '**', component: EroreComponent, title: 'error' },
+  { path: '**', component: EroreComponent, title: 'ShopVibe - Page Not Found' }
 ];
