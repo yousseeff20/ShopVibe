@@ -22,9 +22,9 @@ export class ProfileComponent implements OnInit {
   orders: Order[] = [];
 
   userProfile = {
-    name: 'Mohamed Azoz',
-    email: 'm.azoz200445@gmail.com',
-    phone: '+20 102 345 6789',
+    name: 'Yousef Ashraf',
+    email: 'youseef.ashraf@outloook.com',
+    phone: '01097380883',
     city: 'New Cairo',
     governorate: 'Cairo',
     address: 'Street 90 North, Villa 42, 3rd Floor'
@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit {
     private orderService: OrderService,
     private toastService: ToastService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
