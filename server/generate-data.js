@@ -1113,9 +1113,9 @@ const orders = [
     date: "2026-10-06",
     estimatedDelivery: "Oct 9 - Oct 11, 2026",
     customer: {
-      name: "Mohamed Azoz",
-      email: "m.azoz200445@gmail.com",
-      phone: "+20 102 345 6789",
+      name: "Yousef Ashraf",
+      email: "youseef.ashraf@outloook.com",
+      phone: "01097380883",
       governorate: "Cairo",
       city: "New Cairo",
       address: "Street 90 North, Villa 42",
@@ -1143,9 +1143,9 @@ const orders = [
     date: "2026-09-24",
     estimatedDelivery: "Delivered on Sep 26, 2026",
     customer: {
-      name: "Mohamed Azoz",
-      email: "m.azoz200445@gmail.com",
-      phone: "+20 102 345 6789",
+      name: "Yousef Ashraf",
+      email: "youseef.ashraf@outloook.com",
+      phone: "01097380883",
       governorate: "Cairo",
       city: "Nasr City",
       address: "Abbas El Akkad St.",
@@ -1158,11 +1158,11 @@ const orders = [
 const users = [
   {
     id: "5f54",
-    name: "Mohamed Azoz",
-    email: "m.azoz200445@gmail.com",
+    name: "Yousef Ashraf",
+    email: "youseef.ashraf@outloook.com",
     password: "5555555555555",
     address: "New Cairo, Egypt",
-    phone: "+20 102 345 6789"
+    phone: "01097380883"
   }
 ];
 
